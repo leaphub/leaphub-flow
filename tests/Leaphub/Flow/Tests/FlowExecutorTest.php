@@ -162,4 +162,29 @@ class FlowExecutorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($executionFailed, 'Job execution did not fail');
     }
+
+    public function testJobsWithDependentJob()
+    {
+        $dependency = new TestJob('dependency');
+
+        $flow = new Flow(rand(1,1000));
+
+        $job1 = new TestJob('job1');
+        $job1->addBeforeJob($dependency);
+
+        $job2 = new TestJob('job2');
+        $job2->addBeforeJob($dependency);
+
+        $flow->addJob($dependency);
+        $flow->addJob($job1);
+        $flow->addJob($job2);
+
+        $eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $executor = new FlowExecutor($eventDispatcher);
+        $executionOrder = $executor->getExecutionOrder($flow);
+
+        $this->assertEquals('dependencyJob', $executionOrder[0]);
+        $this->assertEquals('job1', $executionOrder[1]);
+        $this->assertEquals('job2', $executionOrder[2]);
+    }
 }
