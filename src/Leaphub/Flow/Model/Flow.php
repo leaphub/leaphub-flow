@@ -38,6 +38,14 @@ class Flow implements FlowInterface
     /**
      * {@inheritdoc}
      */
+    public function hasJob(JobInterface $job)
+    {
+        return $this->getJobById($job->getId()) !== null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function addJob(JobInterface $job)
     {
         if (isset($this->jobs[$job->getId()])) {

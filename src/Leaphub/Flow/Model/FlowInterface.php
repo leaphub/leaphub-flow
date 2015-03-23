@@ -47,4 +47,13 @@ interface FlowInterface
      * @return int
      */
     public function getJobCount();
+
+    /**
+     * Exists the job in the current flow
+     *
+     * @param JobInterface $job
+     *
+     * @return bool
+     */
+    public function hasJob(JobInterface $job);
 } 

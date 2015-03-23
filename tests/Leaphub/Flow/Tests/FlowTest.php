@@ -62,4 +62,28 @@ class FlowTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(null, $flow->getJobById('non-existent-job'));
         $this->assertEquals($job1, $flow->getJobById('test-job-1'));
     }
+
+    public function testHasJob_JobShouldExist()
+    {
+        $flow = new Flow('test-flow');
+
+        $job1 = new TestJob('test-job-1', null);
+        $flow->addJob($job1);
+
+        $job2 = new TestJob('test-job-2', null);
+        $flow->addJob($job2);
+
+        $this->assertTrue($flow->hasJob($job1));
+    }
+
+    public function testHasJob_JobShouldNotExist()
+    {
+        $flow = new Flow('test-flow');
+
+        $job1 = new TestJob('test-job-1', null);
+        $job2 = new TestJob('test-job-2', null);
+        $flow->addJob($job2);
+
+        $this->assertFalse($flow->hasJob($job1));
+    }
 }
