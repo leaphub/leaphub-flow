@@ -36,6 +36,16 @@ class Flow implements FlowInterface
     }
 
     /**
+     * @param JobInterface $job
+     *
+     * @return bool
+     */
+    public function hasJob(JobInterface $job)
+    {
+        return $this->getJobById($job->getId()) !== null;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function addJob(JobInterface $job)
