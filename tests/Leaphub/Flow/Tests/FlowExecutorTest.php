@@ -164,21 +164,21 @@ class FlowExecutorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test the execution of a flow where two jobs depend on one
+     * Test the execution of a flow where two jobs depend on one.
      */
-    public function testJobsWithDependentJob()
+    public function testTwoJobsDependingOnOne()
     {
         $flow = new Flow('test-flow');
 
         $dependentJob = new TestJob('dependency');
-        $job1 = new TestJob('job1');
-        $job1->executeAfter($dependentJob);
-        $job2 = new TestJob('job2');
-        $job2->executeAfter($dependentJob);
-
         $flow->addJob($dependentJob);
+        $job1 = new TestJob('job1');
         $flow->addJob($job1);
+        $job2 = new TestJob('job2');
         $flow->addJob($job2);
+
+        $job1->executeAfter($dependentJob);
+        $job2->executeAfter($dependentJob);
 
         $eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         $executor = new FlowExecutor($eventDispatcher);
