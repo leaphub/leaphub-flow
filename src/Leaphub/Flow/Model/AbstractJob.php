@@ -44,7 +44,7 @@ abstract class AbstractJob implements JobInterface
      */
     public function executeBefore(JobInterface $job)
     {
-        $this->preConditions[] = $job;
+        $this->postConditions[] = $job;
     }
 
     /**
@@ -52,7 +52,7 @@ abstract class AbstractJob implements JobInterface
      */
     public function getPostConditions()
     {
-        return $this->preConditions;
+        return $this->postConditions;
     }
 
     /**
@@ -60,7 +60,7 @@ abstract class AbstractJob implements JobInterface
      */
     public function executeAfter(JobInterface $job)
     {
-        $this->postConditions[] = $job;
+        $this->preConditions[] = $job;
     }
 
     /**
@@ -68,7 +68,7 @@ abstract class AbstractJob implements JobInterface
      */
     public function getPreConditions()
     {
-        return $this->postConditions;
+        return $this->preConditions;
     }
 
     /**
