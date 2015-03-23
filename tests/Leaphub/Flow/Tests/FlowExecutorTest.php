@@ -30,8 +30,8 @@ class FlowExecutorTest extends \PHPUnit_Framework_TestCase
         $job1 = new TestJob('test-job-1', $counter);
         $flow->addJob($job1);
 
-        $job1->addAfterJob($job2);
-        $job1->addBeforeJob($job3);
+        $job1->executeAfter($job2);
+        $job1->executeBefore($job3);
 
         $eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         $executor = new FlowExecutor($eventDispatcher);
@@ -65,10 +65,10 @@ class FlowExecutorTest extends \PHPUnit_Framework_TestCase
         $job4 = new TestJob('test-job-4', $counter);
         $flow->addJob($job4);
 
-        $job1->addBeforeJob($job2);
-        $job4->addAfterJob($job2);
-        $job2->addAfterJob($job3);
-        $job3->addAfterJob($job4);
+        $job1->executeBefore($job2);
+        $job4->executeAfter($job2);
+        $job2->executeAfter($job3);
+        $job3->executeAfter($job4);
 
         $eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         $executor = new FlowExecutor($eventDispatcher);
@@ -106,8 +106,8 @@ class FlowExecutorTest extends \PHPUnit_Framework_TestCase
         $job3 = new TestJob('test-job-3', $counter);
         $flow->addJob($job3);
 
-        $job2->addAfterJob($job3);
-        $job3->addAfterJob($job2);
+        $job2->executeAfter($job3);
+        $job3->executeAfter($job2);
 
         $eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         $executor = new FlowExecutor($eventDispatcher);
@@ -126,7 +126,7 @@ class FlowExecutorTest extends \PHPUnit_Framework_TestCase
         $flow = new Flow('test-flow');
         $job1 = new TestJob('test-job-1', $counter);
         $flow->addJob($job1);
-        $job1->addAfterJob($job1);
+        $job1->executeAfter($job1);
 
         $eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
         $executor = new FlowExecutor($eventDispatcher);
@@ -161,5 +161,31 @@ class FlowExecutorTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertTrue($executionFailed, 'Job execution did not fail');
+    }
+
+    /**
+     * Test the execution of a flow where two jobs depend on one
+     */
+    public function testJobsWithDependentJob()
+    {
+        $flow = new Flow('test-flow');
+
+        $dependentJob = new TestJob('dependency');
+        $job1 = new TestJob('job1');
+        $job1->executeAfter($dependentJob);
+        $job2 = new TestJob('job2');
+        $job2->executeAfter($dependentJob);
+
+        $flow->addJob($dependentJob);
+        $flow->addJob($job1);
+        $flow->addJob($job2);
+
+        $eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $executor = new FlowExecutor($eventDispatcher);
+        $executionOrder = $executor->getExecutionOrder($flow);
+
+        $this->assertEquals('dependency', $executionOrder[0]);
+        $this->assertEquals('job1', $executionOrder[1]);
+        $this->assertEquals('job2', $executionOrder[2]);
     }
 }

@@ -194,11 +194,11 @@ class FlowExecutor implements FlowExecutorInterface
                 $postCondition[$job->getId()] = array();
             }
 
-            foreach ($job->getBeforeJobs() as $beforeJob) {
+            foreach ($job->getPostConditions() as $beforeJob) {
                 $postCondition[$job->getId()][] = $beforeJob->getId();
             }
 
-            foreach ($job->getAfterJobs() as $afterJob) {
+            foreach ($job->getPreConditions() as $afterJob) {
                 if (!isset($postCondition[$afterJob->getId()])) {
                     $postCondition[$afterJob->getId()] = array();
                 }

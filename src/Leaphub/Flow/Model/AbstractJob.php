@@ -7,20 +7,21 @@ namespace Leaphub\Flow\Model;
  */
 abstract class AbstractJob implements JobInterface
 {
+
     /**
      * @var string $id
      */
     private $id;
 
     /**
-     * @var JobInterface[] $beforeJobs
+     * @var JobInterface[] $preConditions
      */
-    private $beforeJobs = array();
+    private $preConditions = array();
 
     /**
-     * @var JobInterface[] $afterJobs
+     * @var JobInterface[] $postConditions
      */
-    private $afterJobs = array();
+    private $postConditions = array();
 
     /**
      * @param string $id A unique identifier for the job
@@ -41,33 +42,33 @@ abstract class AbstractJob implements JobInterface
     /**
      * {@inheritdoc}
      */
-    public function addBeforeJob(JobInterface $job)
+    public function executeBefore(JobInterface $job)
     {
-        $this->beforeJobs[] = $job;
+        $this->preConditions[] = $job;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getBeforeJobs()
+    public function getPostConditions()
     {
-        return $this->beforeJobs;
+        return $this->preConditions;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function addAfterJob(JobInterface $job)
+    public function executeAfter(JobInterface $job)
     {
-        $this->afterJobs[] = $job;
+        $this->postConditions[] = $job;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getAfterJobs()
+    public function getPreConditions()
     {
-        return $this->afterJobs;
+        return $this->postConditions;
     }
 
     /**
