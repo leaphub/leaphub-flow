@@ -36,9 +36,7 @@ class Flow implements FlowInterface
     }
 
     /**
-     * @param JobInterface $job
-     *
-     * @return bool
+     * {@inheritdoc}
      */
     public function hasJob(JobInterface $job)
     {
