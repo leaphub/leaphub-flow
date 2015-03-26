@@ -56,11 +56,7 @@ class Flow implements FlowInterface
     }
 
     /**
-     * Fetches a job for the given job ID.
-     *
-     * @param string $jobId
-     *
-     * @return JobInterface The job object or null if no job with the given id was found.
+     * {@inheritdoc}
      */
     public function getJobById($jobId)
     {
