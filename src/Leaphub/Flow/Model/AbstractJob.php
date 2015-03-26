@@ -14,6 +14,11 @@ abstract class AbstractJob implements JobInterface
     private $id;
 
     /**
+     * @var FlowInterface $flow
+     */
+    private $flow;
+
+    /**
      * @var JobInterface[] $preConditions
      */
     private $preConditions = array();
@@ -37,6 +42,22 @@ abstract class AbstractJob implements JobInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getFlow()
+    {
+        return $this->flow;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFlow(FlowInterface $flow)
+    {
+        $this->flow = $flow;
     }
 
     /**

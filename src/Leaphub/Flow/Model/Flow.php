@@ -52,6 +52,7 @@ class Flow implements FlowInterface
             throw new FlowException(sprintf('The flow "%s" already contains a job with id "%s"', $this->getId(), $job->getId()));
         }
 
+        $job->setFlow($this);
         $this->jobs[$job->getId()] = $job;
     }
 

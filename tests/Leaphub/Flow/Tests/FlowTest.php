@@ -91,4 +91,18 @@ class FlowTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($flow->hasJob($job1));
     }
+
+    /**
+     * Tests if a jobs gets the flow he was added to assigned.
+     */
+    public function testAssignFlowToJob()
+    {
+        $flow = new Flow('test-flow');
+
+        $job1 = new TestJob('test-job-1', null);
+        $flow->addJob($job1);
+
+        $this->assertTrue($flow->hasJob($job1));
+        $this->assertEquals($flow, $job1->getFlow());
+    }
 }

@@ -17,6 +17,20 @@ interface JobInterface
     public function getId();
 
     /**
+     * Returns the flow this job belongs to.
+     *
+     * @return FlowInterface
+     */
+    public function getFlow();
+
+    /**
+     * specifies the flow this job belongs to.
+     *
+     * @param FlowInterface $flow
+     */
+    public function setFlow(FlowInterface $flow);
+
+    /**
      * Adds a new job as post condition of this one. This means the job passed as argument must be executed after this one.
      *
      * @param JobInterface $job
