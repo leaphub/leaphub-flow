@@ -13,7 +13,7 @@ use Leaphub\Flow\Exception\JobExecutionException;
 use Leaphub\Flow\Exception\NoEntryPointException;
 use Leaphub\Flow\Model\FlowInterface;
 use Leaphub\Flow\Model\JobInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * A basic flow executor implementation which executes the jobs sequentially based on topological sort.
@@ -25,14 +25,14 @@ class FlowExecutor implements FlowExecutorInterface
     const SORT_VISITED = 2;
 
     /**
-     * @var EventDispatcher $eventDispatcher
+     * @var EventDispatcherInterface $eventDispatcher
      */
     private $eventDispatcher;
 
     /**
-     * @param EventDispatcher $eventDispatcher
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(EventDispatcher $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         $this->eventDispatcher = $eventDispatcher;
     }
