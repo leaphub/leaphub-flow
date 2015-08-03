@@ -188,4 +188,32 @@ class FlowExecutorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('job1', $executionOrder[1]);
         $this->assertEquals('job2', $executionOrder[2]);
     }
+
+    /**
+     * Test if an entry point is found if the last job is the entry point.
+     *
+     * @link https://github.com/leaphub/leaphub-flow/issues/8
+     */
+    public function testLastJobIsEntryPoint()
+    {
+        $flow = new Flow('test-flow');
+
+        $job1 = new TestJob('job1');
+        $flow->addJob($job1);
+        $job2 = new TestJob('job2');
+        $flow->addJob($job2);
+        $job3 = new TestJob('job3');
+        $flow->addJob($job3);
+
+        $job1->executeAfter($job2);
+        $job2->executeAfter($job3);
+
+        $eventDispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcher');
+        $executor = new FlowExecutor($eventDispatcher);
+        $executionOrder = $executor->getExecutionOrder($flow);
+
+        $this->assertEquals('job3', $executionOrder[0]);
+        $this->assertEquals('job2', $executionOrder[1]);
+        $this->assertEquals('job1', $executionOrder[2]);
+    }
 }

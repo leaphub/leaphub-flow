@@ -165,7 +165,7 @@ class FlowExecutor implements FlowExecutorInterface
         foreach ($conditionJobIds as $potentialJob) {
             foreach ($conditionJobIds as $jobId) {
                 if (in_array($potentialJob, $flowPostConditions[$jobId])) {
-                    break 2;
+                    continue 2;
                 }
             }
 
