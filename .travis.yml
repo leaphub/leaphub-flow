@@ -6,9 +6,5 @@ php:
   - 7.0
   - 7.1
 
-before_script:
-    - curl -s http://getcomposer.org/installer | php
-    - php composer.phar install --dev
-
 script:
     - bin/phpunit -c phpunit.xml.dist
