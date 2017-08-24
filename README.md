@@ -1,4 +1,6 @@
-# LeapHub Flow Engine
+# LeapHub Flow Engine 
+
+[![Build Status](https://travis-ci.org/leaphub/leaphub-flow.svg?branch=master)](https://travis-ci.org/leaphub/leaphub-flow)
 
 LeapHub flow allows you to define and execute job flows by specifying an arbitrary amount of jobs and their pre and post 
 conditions.
